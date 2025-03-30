@@ -38,7 +38,7 @@ const Service = ({ service }) => {
 
     return (
         <Card sx={{
-            width: 345, borderRadius: 2, height: 370,
+            width: 345, borderRadius: 2, height: 350,
             boxShadow: 0, "&:hover": {
                 boxShadow: "0px 0px 14px rgba(0,0,0,0.1)",
             }

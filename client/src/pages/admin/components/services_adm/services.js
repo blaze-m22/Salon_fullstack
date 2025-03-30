@@ -14,7 +14,7 @@ const Services = () => {
     const [filteredServices, setFilteredServices] = useState(services);
     const [currentPage, setCurrentPage] = useState(1);
     const user = JSON.parse(localStorage.getItem('adminProfile'));
-    const pageSize = 10;
+    const pageSize = 12;
 
     console.log(filteredServices);
 

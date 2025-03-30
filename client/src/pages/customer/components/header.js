@@ -56,21 +56,31 @@ const Header = ({ pageTitle }) => {
 
     return (
         <Box>
-            <AppBar position="static" sx={{ backgroundColor: "#F8C8DC", height: 40 }}>
-                <Container sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', gap: 2, height: '100%' }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <AppBar position="static" sx={{ backgroundColor: "primary.main", height: 40 }}>
+                <Container
+                    sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: { xs: "center", md: "end" },
+                        alignItems: "center",
+                        gap: { xs: 2, md: 2 },
+                        height: "100%",
+                        textAlign: "center"
+                    }}
+                >
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                         <IconButton sx={{ color: "text.primary", p: 0 }}>
                             <PhoneIcon fontSize="small" />
                         </IconButton>
-                        <Typography variant="body2" sx={{ color: "text.primary" }}>
+                        <Typography variant="caption" sx={{ color: "text.primary" }}>
                             +1 234 567 890
                         </Typography>
                     </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                         <IconButton sx={{ color: "text.primary", p: 0 }}>
                             <EmailIcon fontSize="small" />
                         </IconButton>
-                        <Typography variant="body2" sx={{ color: "text.primary" }}>
+                        <Typography variant="caption" sx={{ color: "text.primary" }}>
                             contact@salon.com
                         </Typography>
                     </Box>
@@ -82,17 +92,35 @@ const Header = ({ pageTitle }) => {
                 sx={{ transition: "background-color 0.4s ease-in-out", color: scrolling ? 'text.primary' : 'primary.main', backgroundColor: scrolling ? "primary.main" : "transparent", boxShadow: "none", top: scrolling ? 0 : 40 }}
             >
                 <Container sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <Box sx={{ display: "flex", alignItems: "center", my: "6px", background: 'transparent' }}>
-                        <img src="/images/app_logo.png" alt="Salon Logo" style={{ height: 70 }} />
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: { xs: "center", sm: "start" },
+                            flexDirection: "row",
+                            my: "6px",
+                            gap: { xs: 2, md: 2 },
+                            background: "transparent",
+                            textAlign: { xs: "center", sm: "left" }
+                        }}
+                    >
+                        <img
+                            src="/images/app_logo.png"
+                            alt="Salon Logo"
+                            style={{ height: "100%", maxHeight: "70px" }}
+                            width="auto"
+                            sx={{ height: { xs: 40, sm: 50, md: 60 } }}
+                        />
                         <Typography
                             variant="h6"
                             sx={{
                                 fontWeight: "bold",
-                                textAlign: "center",
-                                ml: 2,
+                                ml: { xs: 0, sm: 2 },
+                                mt: { xs: 1, sm: 0 },
                                 color: "text.primary",
                                 textTransform: "uppercase",
-                                letterSpacing: 1.5
+                                letterSpacing: 1.5,
+                                fontSize: { xs: "1rem", sm: "1.25rem", md: "1.5rem" }
                             }}
                         >
                             {pageTitle}

@@ -61,8 +61,6 @@ const Header = () => {
 
                 {!isMobile && (
                     <Box sx={{ display: "flex", alignItems: "center", ml: "auto", letterSpacing: 1 }}>
-                        <MenuItem component={Link} sx={{ fontWeight: 'bold' }} to="/">HOME</MenuItem>
-                        <MenuItem component={Link} sx={{ fontWeight: 'bold' }} to="/servicesAdmin">SERVICES</MenuItem>
                         {user
                             ? <>
                                 <MenuItem>
