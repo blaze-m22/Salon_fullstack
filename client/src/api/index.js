@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'http://localhost:5001' });
-// const API = axios.create({ baseURL: 'https://salon-server-bbre.onrender.com' });
+// const API = axios.create({ baseURL: 'http://localhost:5001' });
+const API = axios.create({ baseURL: 'https://salon-server-bbre.onrender.com' });
 
 API.interceptors.request.use((req) => {
     const adminProfile = localStorage.getItem('adminProfile');

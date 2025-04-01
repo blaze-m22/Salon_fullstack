@@ -67,7 +67,7 @@ const Home = () => {
                 <Container>
                     <Grid container spacing={4} alignItems="center">
                         <Grid item xs={12} md={6} sx={{ position: "relative", zIndex: 2 }}>
-                            <Typography variant="h3" mb={2}>Meet Our Admin</Typography>
+                            <Typography variant="h3" mb={2}>Jane Doe</Typography>
                             <Typography variant="body1">Expert in salon services with 10+ years of experience. We provide top-notch services to make you look and feel your best.</Typography>
                         </Grid>
                         <Grid item xs={12} md={6} sx={{ position: "relative", zIndex: 2, textAlign: 'center' }}>
