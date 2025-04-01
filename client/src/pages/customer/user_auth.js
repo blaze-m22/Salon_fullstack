@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import {
     Container, TextField, Button, Typography, Box,
-    Paper, InputAdornment, IconButton, Alert, Snackbar
+    Paper, InputAdornment, IconButton, Alert, Snackbar,
+    CircularProgress
 } from "@mui/material";
 import { Visibility, VisibilityOff, Person, Email, Lock } from "@mui/icons-material";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { userSignIn, userSignUp } from "../../actions/auth";
+import Header from "./components/header";
 
 const UserAuth = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isSignUp, setIsSignUp] = useState(false);
@@ -31,12 +34,16 @@ const UserAuth = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsLoading(true);
         // console.log(formData);
-        if (isSignUp) {
-            dispatch(userSignUp(formData, navigate));
-        } else {
-            dispatch(userSignIn(formData, navigate));
-        }
+        setTimeout(() => {
+            if (isSignUp) {
+                dispatch(userSignUp(formData, navigate));
+            } else {
+                dispatch(userSignIn(formData, navigate));
+            }
+            setIsLoading(false);
+        }, 1000);
     }
 
     const handleClose = () => setShowError(false);
@@ -51,6 +58,7 @@ const UserAuth = () => {
 
     return (
         <>
+            <Header pageTitle="Auth" />
             {showError && (
                 <Snackbar
                     open={showError}
@@ -174,6 +182,7 @@ const UserAuth = () => {
                             sx={{ mt: 2, py: 1.5, fontSize: "1rem", fontWeight: "bold" }}
                         >
                             {isSignUp ? "Sign Up" : "Log In"}
+                            {isLoading && <CircularProgress size={18} sx={{ ml: 1, color: 'text.primary' }} />}
                         </Button>
                     </form>
 

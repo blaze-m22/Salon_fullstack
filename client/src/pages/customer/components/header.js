@@ -19,6 +19,7 @@ const Header = ({ pageTitle }) => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [scrolling, setScrolling] = useState(false);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('userProfile')));
+    const isHeaderStatic = ['/userAuth', '/services', '/gallery', '/userProfile'].includes(location.pathname);
 
     useEffect(() => {
         const token = user?.token;
@@ -56,7 +57,7 @@ const Header = ({ pageTitle }) => {
 
     return (
         <Box>
-            <AppBar position="static" sx={{ backgroundColor: "primary.main", height: 40 }}>
+            <AppBar position="static" sx={{ backgroundColor: "text.secondary", height: 40 }}>
                 <Container
                     sx={{
                         display: "flex",
@@ -88,8 +89,14 @@ const Header = ({ pageTitle }) => {
             </AppBar>
 
             <AppBar
-                position="fixed"
-                sx={{ transition: "background-color 0.4s ease-in-out", color: scrolling ? 'text.primary' : 'primary.main', backgroundColor: scrolling ? "primary.main" : "transparent", boxShadow: "none", top: scrolling ? 0 : 40 }}
+                position={isHeaderStatic ? "static" : "fixed"}
+                sx={{
+                    transition: "background-color 0.4s ease-in-out",
+                    color: scrolling || isHeaderStatic ? 'text.primary' : 'primary.main',
+                    backgroundColor: scrolling || isHeaderStatic ? "primary.main" : "transparent",
+                    boxShadow: "none",
+                    top: scrolling ? 0 : 40
+                }}
             >
                 <Container sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <Box
@@ -134,8 +141,8 @@ const Header = ({ pageTitle }) => {
                             {user
                                 ? <>
                                     <MenuItem onClick={() => navigate('/userProfile')}>
-                                        <Avatar src={user?.result?.profilePicture} sx={{ bgcolor: deepPurple[500], width: 35, height: 35, fontSize: '3rem' }} />
-                                        <Typography variant="body1" sx={{ mx: 2, fontWeight: "bold" }}>
+                                        <Avatar src={user?.result?.profilePicture} sx={{ bgcolor: deepPurple[500], mr: 2, fontSize: '3rem' }} />
+                                        <Typography variant="body1" sx={{ fontWeight: "bold" }}>
                                             {user.result?.name}
                                         </Typography>
                                     </MenuItem>
@@ -153,10 +160,11 @@ const Header = ({ pageTitle }) => {
                         <>
                             <Box sx={{ flexDirection: 'row', display: 'flex' }}>
                                 <MenuItem>
-                                    {user ? <Avatar src={user?.result?.profilePicture} onClick={() => navigate('/userProfile')} sx={{ bgcolor: deepPurple[500], width: 35, height: 35, fontSize: '3rem' }} />
+                                    {user ?
+                                        <Avatar src={user?.result?.profilePicture} onClick={() => navigate('/userProfile')} sx={{ bgcolor: deepPurple[500], fontSize: '3rem' }} />
                                         : <LoginRounded alt="Log In" onClick={() => navigate('/userAuth')} />}
                                 </MenuItem>
-                                <MenuItem onClick={() => setOpenDrawer(true)}>
+                                <MenuItem sx={{ px: 0 }} onClick={() => setOpenDrawer(true)}>
                                     <MenuIcon />
                                 </MenuItem>
                             </Box>

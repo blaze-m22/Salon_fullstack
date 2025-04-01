@@ -10,6 +10,8 @@ import CreateServiceForm from './pages/admin/create_service_form';
 import AdminAuth from './pages/admin/admin_auth';
 import UserAuth from './pages/customer/user_auth';
 import UserProfile from './pages/customer/user_profile';
+import PhotoAlbum from './pages/customer/photo_album';
+import GalleryAdmin from './pages/admin/gallery_admin';
 
 const App = () => {
   const adminProfile = JSON.parse(localStorage.getItem('adminProfile'));
@@ -27,6 +29,9 @@ const App = () => {
           <Route path='/services' element={<AvailableServices />} />
           <Route path='/servicesAdmin' element={  <ServicesAdmin />} />
           
+          <Route path='/gallery' element={<PhotoAlbum />} />
+          <Route path='/galleryAdmin' element={<GalleryAdmin />} />
+
           <Route path='/create' element={<CreateServiceForm />} />
           <Route path='/edit/:id' element={<EditServiceForm />} />
 

@@ -5,7 +5,9 @@ export const getServices = () => async (dispatch) => {
     try {
         const { data } = await api.fetchServices();
 
-        dispatch({ type: FETCH_ALL, payload: data });
+        const sortedData = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        dispatch({ type: FETCH_ALL, payload: sortedData });
     } catch (error) {
         console.log(error.message);
     }
@@ -28,8 +30,10 @@ export const createService = (service) => async (dispatch) => {
         const { data } = await api.createService(service);
 
         dispatch({ type: CREATE, payload: data });
+        // return { success: true, message: "Created Service!" };
     } catch (error) {
         console.log("Create service error: ", error);
+        // return { success: false, message: "Failed to create service, Please try again later." };
     }
 }
 

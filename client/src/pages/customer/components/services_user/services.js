@@ -21,7 +21,7 @@ const Services = () => {
             setFilteredServices(
                 services
                     .filter((service) => service.isActive)
-                    .filter((service) => service.title.toLowerCase().includes(searchTerm.toLowerCase())
+                    .filter((service) => service.title?.toLowerCase().includes(searchTerm.toLowerCase())
                     ));
         }, 300);
 
@@ -41,13 +41,13 @@ const Services = () => {
             (
                 <>
                     <Header pageTitle="our services" />
-                    <Box sx={{ display: "flex", justifyContent: "center", mt: 12 }}>
+                    <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
                         <TextField
                             fullWidth
                             variant="outlined"
                             placeholder="Search services..."
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            sx={{ marginBottom: 2, width: "60%", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", bgcolor: 'white' }}
+                            sx={{ my: 2, width: "60%", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", bgcolor: 'white' }}
                         />
                     </Box>
                     <Container sx={{ mb: 2 }}>

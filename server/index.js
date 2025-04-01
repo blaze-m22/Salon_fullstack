@@ -5,6 +5,7 @@ import cors from 'cors';
 
 import serviceRoutes from './routes/services.js';
 import userRoutes from './routes/users.js';
+import feedbackRoutes from './routes/feedback.js';
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(cors());
 
 app.use('/services', serviceRoutes);
 app.use('/user', userRoutes);
+app.use('/gallery', feedbackRoutes);
 
 const CONNECTION_URL = 'mongodb+srv://noobmaster:noobmaster231@cluster0.gp6d2.mongodb.net/salon_db?retryWrites=true&w=majority&appName=Cluster0'
 const PORT = process.env.PORT || 5001;

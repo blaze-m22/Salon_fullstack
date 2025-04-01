@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'https://salon-server-bbre.onrender.com' });
+const API = axios.create({ baseURL: 'http://localhost:5001' });
+// const API = axios.create({ baseURL: 'https://salon-server-bbre.onrender.com' });
 
 API.interceptors.request.use((req) => {
     const adminProfile = localStorage.getItem('adminProfile');
@@ -19,6 +20,10 @@ export const fetchService = (id) => API.get(`/services/${id}`);
 export const createService = (newService) => API.post('/services', newService);
 export const updateService = (id, updatedService) => API.patch(`/services/${id}`, updatedService);
 export const deleteService = (id) => API.delete(`/services/${id}`);
+
+export const fetchGallery = () => API.get('/gallery');
+export const createGalleryItem = (newGalleryItem) => API.post('/gallery', newGalleryItem);
+export const deleteGalleryItem = (id) => API.delete(`/gallery/${id}`);
 
 export const adminSignIn = (formData) => API.post('/user/adminsignin', formData);
 export const adminSignUp = (formData) => API.post('/user/adminsignup', formData);

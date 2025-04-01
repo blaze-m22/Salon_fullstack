@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {
     Container, TextField, Button, Typography, Box,
-    InputAdornment, IconButton, Paper, Alert, Snackbar
+    InputAdornment, IconButton, Paper, Alert, Snackbar,
+    CircularProgress
 } from "@mui/material";
 import { Visibility, VisibilityOff, Lock, Email, Person } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { adminSignIn, adminSignUp } from "../../actions/auth";
+import Header from "./components/header";
 
 const AdminAuth = () => {
     const [formData, setFormData] = useState({
@@ -16,6 +18,7 @@ const AdminAuth = () => {
         confirmPassword: ""
     });
     const [isSignUp, setIsSignUp] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
@@ -37,13 +40,16 @@ const AdminAuth = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsLoading(true);
         console.log("Login Data:", formData);
-
-        if (isSignUp) {
-            dispatch(adminSignUp(formData, navigate));
-        } else {
-            dispatch(adminSignIn(formData, navigate));
-        }
+        setTimeout(() => {
+            if (isSignUp) {
+                dispatch(adminSignUp(formData, navigate));
+            } else {
+                dispatch(adminSignIn(formData, navigate));
+            }
+            setIsLoading(false);
+        }, 1000);
     };
 
     const switchMode = () => {
@@ -54,6 +60,7 @@ const AdminAuth = () => {
 
     return (
         <>
+            <Header pageTitle="Auth" />
             {showError && (
                 <Snackbar
                     open={showError}
@@ -177,6 +184,7 @@ const AdminAuth = () => {
                             sx={{ mt: 2, py: 1.5, fontSize: "1rem", fontWeight: "bold" }}
                         >
                             {isSignUp ? "Sign Up" : "Log In"}
+                            {isLoading && <CircularProgress size={18} sx={{ ml: 1, color: 'text.primary' }} />}
                         </Button>
                     </form>
 

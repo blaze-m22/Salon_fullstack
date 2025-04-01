@@ -16,12 +16,10 @@ const Services = () => {
     const user = JSON.parse(localStorage.getItem('adminProfile'));
     const pageSize = 12;
 
-    console.log(filteredServices);
-
     useEffect(() => {
         const debouncedFilter = _.debounce(() => {
             setFilteredServices(
-                services.filter((service) => service.title.toLowerCase().includes(searchTerm.toLowerCase())
+                services.filter((service) => service.title?.toLowerCase().includes(searchTerm.toLowerCase())
                 ));
         }, 300);
 
@@ -40,7 +38,7 @@ const Services = () => {
             </Box> :
             (
                 <>
-                    <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+                    <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
                         <TextField
                             fullWidth
                             variant="outlined"

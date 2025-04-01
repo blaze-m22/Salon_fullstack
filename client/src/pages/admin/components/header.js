@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { jwtDecode } from 'jwt-decode';
 import { ADMIN_LOGOUT } from '../../../constants/action_types';
 
-const Header = () => {
+const Header = ({ pageTitle }) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -21,19 +21,12 @@ const Header = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [openDrawer, setOpenDrawer] = useState(false);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('adminProfile')));
-    // const authData = useSelector((state) => state.authReducer?.authData);
 
     const logout = () => {
         dispatch({ type: ADMIN_LOGOUT });
         navigate('/servicesAdmin');
         setUser(null);
     }
-
-    // useEffect(() => {
-    //     if (!authData) {
-    //         navigate('/adminAuth');
-    //     }
-    // }, [authData, navigate]);
 
     useEffect(() => {
         const token = user?.token;
@@ -57,14 +50,39 @@ const Header = () => {
             <Toolbar>
                 <Box sx={{ display: "flex", alignItems: "center", my: "3px", background: 'transparent', flexGrow: 1 }}>
                     <img src="/images/app_logo.png" alt="Salon Logo" style={{ maxHeight: '6vh' }} />
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            fontWeight: "bold",
+                            ml: { xs: 1, sm: 2 },
+                            color: "text.primary",
+                            textTransform: "uppercase",
+                            letterSpacing: 1.5,
+                            fontSize: { xs: "1rem", sm: "1.25rem", md: "1.5rem" }
+                        }}
+                    >
+                        {pageTitle}
+                    </Typography>
                 </Box>
 
                 {!isMobile && (
                     <Box sx={{ display: "flex", alignItems: "center", ml: "auto", letterSpacing: 1 }}>
+                        <MenuItem component={Link} sx={{ fontWeight: 'bold' }} to="/servicesAdmin">SERVICES</MenuItem>
+                        <MenuItem component={Link} sx={{ fontWeight: 'bold' }} to="/galleryAdmin">GALLERY</MenuItem>
                         {user
                             ? <>
                                 <MenuItem>
-                                    <Typography variant="body1" sx={{ mx: 2, fontWeight: "bold" }}>
+                                    <Avatar
+                                        sx={{
+                                            fontWeight: "bold",
+                                            bgcolor: "text.primary",
+                                            color: "white",
+                                            boxShadow: "0px 4px 10px rgba(0,0,0,0.2)",
+                                        }}
+                                    >
+                                        {user.result?.name?.charAt(0).toUpperCase()}
+                                    </Avatar>
+                                    <Typography variant="body1" sx={{ ml: 2, fontWeight: "bold" }}>
                                         {user.result?.name + " (Admin)"}
                                     </Typography>
                                 </MenuItem>
@@ -84,15 +102,23 @@ const Header = () => {
                             {user
                                 ? <>
                                     <MenuItem sx={{ p: 0 }}>
-                                        <Typography variant="body1" sx={{ mx: 2, fontWeight: "bold" }}>
-                                            {user.result?.name + " (Admin)"}
-                                        </Typography>
+                                        <Avatar
+                                            sx={{
+                                                mx: 2,
+                                                fontWeight: "bold",
+                                                bgcolor: "text.primary",
+                                                color: "white",
+                                                boxShadow: "0px 4px 10px rgba(0,0,0,0.2)",
+                                            }}
+                                        >
+                                            {user.result?.name?.charAt(0).toUpperCase()}
+                                        </Avatar>
                                     </MenuItem>
                                 </>
                                 : <MenuItem>
                                     <LoginRounded alt="Log In" onClick={() => navigate('/adminAuth')} />
                                 </MenuItem>}
-                            <MenuItem sx={{ pl: 0 }} onClick={() => setOpenDrawer(true)}>
+                            <MenuItem sx={{ px: 0 }} onClick={() => setOpenDrawer(true)}>
                                 <MenuIcon />
                             </MenuItem>
                         </Box>
@@ -103,16 +129,23 @@ const Header = () => {
                                 <ListItem>
                                     <Box sx={{ display: "flex", flexDirection: 'column', alignItems: "center", justifyContent: 'center', width: '100%', my: "3px", background: 'transparent' }}>
                                         <img src="/images/app_logo.png" alt="Salon Logo" style={{ maxHeight: '20vw' }} />
-                                        <Typography variant="body1" sx={{ m: 2, fontWeight: "bold" }}>
+                                        {user && <Typography variant="body1" sx={{ m: 2, fontWeight: "bold" }}>
                                             {user.result?.name + " (Admin)"}
-                                        </Typography>
+                                        </Typography>}
                                     </Box>
                                 </ListItem>
 
                                 <ListItem disablePadding>
-                                    <ListItemButton component={Link} to="/servicesAdmin" onClick={() => setOpenDrawer(false)} sx={{ "&:hover": { backgroundColor: "#E8B4C1" } }}>
+                                    <ListItemButton component={Link} to="/servicesAdmin" onClick={() => setOpenDrawer(false)} sx={{ "&:hover": { backgroundColor: "#E8B4C1", color: "text.primary" } }}>
                                         <ManageSearch sx={{ mr: 2 }} />
                                         <ListItemText primary="MANAGE SERVICES" />
+                                    </ListItemButton>
+                                </ListItem>
+
+                                <ListItem disablePadding>
+                                    <ListItemButton component={Link} to="/galleryAdmin" onClick={() => setOpenDrawer(false)} sx={{ "&:hover": { backgroundColor: "#E8B4C1", color: "text.primary" } }}>
+                                        <ManageSearch sx={{ mr: 2 }} />
+                                        <ListItemText primary="MANAGE GALLERY" />
                                     </ListItemButton>
                                 </ListItem>
 
@@ -124,7 +157,7 @@ const Header = () => {
                                         } else {
                                             navigate('/adminAuth');
                                         }
-                                    }}>
+                                    }} sx={{ "&:hover": { backgroundColor: "#E8B4C1", color: "text.primary" } }} >
                                         {user ? <>
                                             <LogoutRounded alt="Log Out" sx={{ mr: 2 }} />
                                             <ListItemText primary="LOG OUT" />

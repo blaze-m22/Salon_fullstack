@@ -66,7 +66,7 @@ export const deleteService = async (req, res) => {
 
     await ServiceModel.findByIdAndDelete(id);
 
-    res.json({ message: 'Post deleted successfully' });
+    res.json({ message: 'Service deleted successfully' });
 }
 
 export const addToFavorites = async (req, res) => {
