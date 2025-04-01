@@ -188,7 +188,7 @@ const Header = ({ pageTitle }) => {
                                     </ListItem>
 
                                     <ListItem disablePadding>
-                                        <ListItemButton component={Link} to="/" onClick={() => setOpenDrawer(false)}>
+                                        <ListItemButton component={Link} to="/userProfile" onClick={() => setOpenDrawer(false)}>
                                             <AccountCircleRounded sx={{ mr: 2 }} />
                                             <ListItemText primary="PROFILE" />
                                         </ListItemButton>
