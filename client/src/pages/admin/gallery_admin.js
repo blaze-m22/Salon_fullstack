@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, CardContent, CardMedia, Container, Dialog, DialogActions, DialogContent, DialogTitle, Fab, Grid, IconButton, Modal, TextField, Typography } from '@mui/material'
+import { Avatar, Box, Button, Card, CardContent, CardMedia, Container, Dialog, DialogActions, DialogContent, DialogTitle, Fab, Grid, IconButton, Modal, Pagination, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react';
 import Masonry from 'react-masonry-css';
 import AddIcon from '@mui/icons-material/Add';
@@ -12,6 +12,8 @@ const GalleryAdmin = () => {
     const [isPop, setIsPop] = useState(false);
     const [confirmDeletePop, setConfirmDeletePop] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 2;
     const user = JSON.parse(localStorage.getItem('adminProfile'));
     const galleryItems = useSelector((state) => state.feedbackReducer);
     const [formData, setFormData] = useState({
@@ -69,13 +71,17 @@ const GalleryAdmin = () => {
         handleClose();
     };
 
+    const paginatedServices = galleryItems.slice(
+        (currentPage - 1) * pageSize, currentPage * pageSize
+    );
+
     return (
         <>
             <Header pageTitle="Dashboard - Galery" />
             <Box sx={{ py: 2, width: "100%", maxWidth: "1200px", mx: "auto" }}>
                 <Container>
                     <Grid container spacing={2}>
-                        {galleryItems.map((item) => (
+                        {paginatedServices.map((item) => (
                             <Grid item key={item._id} xs={12}>
                                 <Card sx={{
                                     display: "flex",
@@ -126,6 +132,15 @@ const GalleryAdmin = () => {
                             </Grid>
                         ))}
                     </Grid>
+
+                    <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+                        <Pagination
+                            count={Math.ceil(galleryItems.length / pageSize)}
+                            page={currentPage}
+                            onChange={(event, page) => setCurrentPage(page)}
+                            color="primary"
+                        />
+                    </Box>
 
                     {user && <Fab
                         color='primary'
@@ -189,7 +204,7 @@ const GalleryAdmin = () => {
                                     value={formData.clientName}
                                     onChange={handleInputChange}
                                 />
-                                <Button variant="contained" color="primary">Submit</Button>
+                                <Button variant="contained" type='submit' color="primary">Submit</Button>
                             </form>
                         </Box>
                     </Box>

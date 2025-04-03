@@ -225,7 +225,7 @@ const Home = () => {
 
                     <Masonry
                         breakpointCols={{ default: 3, 1100: 3, 700: 2 }}
-                        className="my-masonry-grid"
+                        className="my-masonry-grid" style={{alignItems: "center"}}
                         columnClassName="my-masonry-grid_column"
                     >
                         {galleryItems.slice(-6).reverse().map((item) => (

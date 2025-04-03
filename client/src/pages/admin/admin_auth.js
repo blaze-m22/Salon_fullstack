@@ -48,7 +48,7 @@ const AdminAuth = () => {
             } else {
                 dispatch(adminSignIn(formData, navigate));
             }
-            setIsLoading(false);
+            // setIsLoading(false);
         }, 1000);
     };
 
