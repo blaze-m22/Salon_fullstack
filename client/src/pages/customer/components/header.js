@@ -123,7 +123,6 @@ const Header = ({ pageTitle }) => {
                             sx={{
                                 fontWeight: "bold",
                                 ml: { xs: 0, sm: 2 },
-                                mt: { xs: 1, sm: 0 },
                                 color: "text.primary",
                                 textTransform: "uppercase",
                                 letterSpacing: 1.5,
