@@ -21,7 +21,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      {!isLoading ? <SplashScreen onComplete={() => setIsLoading(false)} /> :
+      {isLoading ? <SplashScreen onComplete={() => setIsLoading(false)} /> :
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<Home />} />
