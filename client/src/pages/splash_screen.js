@@ -1,15 +1,7 @@
 import { Box, CircularProgress } from '@mui/material';
 import React, { useEffect } from 'react';
 
-const SplashScreen = ({ onComplete }) => {
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            onComplete();
-        }, 3000);
-        return () => clearTimeout(timer);
-    }, [onComplete]);
-    
+const SplashScreen = () => {    
     return (
         <Box
             sx={{
@@ -18,7 +10,7 @@ const SplashScreen = ({ onComplete }) => {
                 justifyContent: "center",
                 alignItems: "center",
                 height: "100vh",
-                backgroundColor: "text.primary",
+                backgroundColor: '#6D214F',
                 color: "white",
                 textAlign: "center"
             }}
@@ -30,7 +22,7 @@ const SplashScreen = ({ onComplete }) => {
                 width="auto"
                 sx={{ height: { xs: 40, sm: 50, md: 60 } }}
             />
-            <CircularProgress sx={{ mt: 2, color: "primary.main" }} size={15} />
+            <CircularProgress sx={{ mt: 2, color: '#F8C8DC' }} size={15} />
         </Box>
     )
 }

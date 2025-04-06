@@ -35,15 +35,11 @@ const UserAuth = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsLoading(true);
-        // console.log(formData);
-        setTimeout(() => {
-            if (isSignUp) {
-                dispatch(userSignUp(formData, navigate));
-            } else {
-                dispatch(userSignIn(formData, navigate));
-            }
-            setIsLoading(false);
-        }, 1000);
+        if (isSignUp) {
+            dispatch(userSignUp(formData, navigate));
+        } else {
+            dispatch(userSignIn(formData, navigate));
+        }
     }
 
     const handleClose = () => setShowError(false);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 import theme from './theme';
@@ -19,28 +19,38 @@ const App = () => {
   const userProfile = JSON.parse(localStorage.getItem('userProfile'));
   const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <SplashScreen />
+  }
+
   return (
     <ThemeProvider theme={theme}>
-      {isLoading ? <SplashScreen onComplete={() => setIsLoading(false)} /> :
-        <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<Home />} />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home />} />
 
-            <Route path='/adminAuth' element={adminProfile ? <Navigate to="/servicesAdmin" replace /> : <AdminAuth />} />
-            <Route path='/userAuth' element={userProfile ? <Navigate to="/" replace /> : <UserAuth />} />
+          <Route path='/adminAuth' element={adminProfile ? <Navigate to="/servicesAdmin" replace /> : <AdminAuth />} />
+          <Route path='/userAuth' element={userProfile ? <Navigate to="/" replace /> : <UserAuth />} />
 
-            <Route path='/services' element={<AvailableServices />} />
-            <Route path='/servicesAdmin' element={<ServicesAdmin />} />
+          <Route path='/services' element={<AvailableServices />} />
+          <Route path='/servicesAdmin' element={<ServicesAdmin />} />
 
-            <Route path='/gallery' element={<PhotoAlbum />} />
-            <Route path='/galleryAdmin' element={<GalleryAdmin />} />
+          <Route path='/gallery' element={<PhotoAlbum />} />
+          <Route path='/galleryAdmin' element={<GalleryAdmin />} />
 
-            <Route path='/create' element={<CreateServiceForm />} />
-            <Route path='/edit/:id' element={<EditServiceForm />} />
+          <Route path='/create' element={<CreateServiceForm />} />
+          <Route path='/edit/:id' element={<EditServiceForm />} />
 
-            <Route path='/userProfile' element={<UserProfile />} />
-          </Routes>
-        </BrowserRouter>}
+          <Route path='/userProfile' element={<UserProfile />} />
+        </Routes>
+      </BrowserRouter>
     </ThemeProvider>
   )
 }

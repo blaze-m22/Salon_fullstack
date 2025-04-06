@@ -42,14 +42,11 @@ const AdminAuth = () => {
         e.preventDefault();
         setIsLoading(true);
         console.log("Login Data:", formData);
-        setTimeout(() => {
-            if (isSignUp) {
-                dispatch(adminSignUp(formData, navigate));
-            } else {
-                dispatch(adminSignIn(formData, navigate));
-            }
-            // setIsLoading(false);
-        }, 1000);
+        if (isSignUp) {
+            dispatch(adminSignUp(formData, navigate));
+        } else {
+            dispatch(adminSignIn(formData, navigate));
+        }
     };
 
     const switchMode = () => {

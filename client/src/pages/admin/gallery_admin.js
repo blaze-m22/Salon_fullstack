@@ -13,7 +13,7 @@ const GalleryAdmin = () => {
     const [confirmDeletePop, setConfirmDeletePop] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 2;
+    const pageSize = 10;
     const user = JSON.parse(localStorage.getItem('adminProfile'));
     const galleryItems = useSelector((state) => state.feedbackReducer);
     const [formData, setFormData] = useState({
