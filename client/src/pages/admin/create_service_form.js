@@ -1,7 +1,7 @@
 import {
     Container, TextField, Typography, Button, Select,
     MenuItem, InputLabel, FormControl, Checkbox, FormControlLabel,
-    Avatar, Box
+    Avatar, Box, Snackbar, Alert
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -23,6 +23,12 @@ const CreateServiceForm = () => {
     });
     const [selectedImage, setSelectedImage] = useState(null);
 
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        message: '',
+        severity: 'info'
+    });
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
@@ -34,14 +40,37 @@ const CreateServiceForm = () => {
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onloadend = () => {
-                setFormData((prev) => ({ ...prev, image: reader.result }));
-                setSelectedImage(file);
-            };
+        const maxSize = 2;
+
+        if (!file) return;
+
+        const isImage = file.type.startsWith("image/");
+        const imageTooLarge = file.size > maxSize * 1024 * 1024;
+
+        if (!isImage) {
+            setSnackbar({
+                open: true,
+                message: "Please upload a valid image file.",
+                severity: "error"
+            });
+            return;
         }
+
+        if (imageTooLarge) {
+            setSnackbar({
+                open: true,
+                message: `Image size should be less than ${maxSize}MB.`,
+                severity: "error"
+            });
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setFormData((prev) => ({ ...prev, image: reader.result }));
+            setSelectedImage(file);
+        };
     };
 
     const clearForm = () => {
@@ -60,7 +89,7 @@ const CreateServiceForm = () => {
         <>
             <Header />
             <Container sx={{ marginY: '15px' }}>
-                <Typography variant="h4" align="center" gutterBottom>
+                <Typography variant="h4" align="center" color='text.primary' gutterBottom>
                     Create Service
                 </Typography>
 
@@ -109,6 +138,21 @@ const CreateServiceForm = () => {
                     </Button>
                 </form>
             </Container>
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={3000}
+                onClose={() => setSnackbar({ ...snackbar, open: false })}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+                <Alert
+                    onClose={() => setSnackbar({ ...snackbar, open: false })}
+                    severity={snackbar.severity}
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    {snackbar.message}
+                </Alert>
+            </Snackbar>
         </>
     )
 }

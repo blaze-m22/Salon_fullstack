@@ -1,9 +1,9 @@
-import { Avatar, Box, Button, Card, CardContent, CardMedia, Container, Dialog, DialogActions, DialogContent, DialogTitle, Fab, Grid, IconButton, Modal, Pagination, TextField, Typography } from '@mui/material'
+import { Alert, Avatar, Box, Button, Card, CardContent, CardMedia, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogTitle, Fab, Grid, IconButton, Modal, Pagination, Snackbar, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react';
 import Masonry from 'react-masonry-css';
 import AddIcon from '@mui/icons-material/Add';
 import Header from './components/header';
-import { Close } from '@mui/icons-material';
+import { Close, Upload } from '@mui/icons-material';
 import { createGalleryItem, deleteGalleryItem, getGallery } from '../../actions/feedback';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -20,19 +20,57 @@ const GalleryAdmin = () => {
         clientImage: "",
         clientName: ""
     });
+    const [isImageLoading, setIsImageLoading] = useState(false);
 
     useEffect(() => {
         dispatch(getGallery());
     }, [dispatch]);
 
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        message: '',
+        severity: 'info'
+    });
+
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onloadend = () => setFormData((prev) => ({
-                ...prev, clientImage: reader.result
-            }));
+
+        if (!file) return;
+
+        const isImage = file.type.startsWith("image/");
+        const imageLarge = file.size > 2 * 1024 * 1024;
+
+        if (!isImage) {
+            setSnackbar({
+                open: true,
+                message: "Please upload a valid image file.",
+                severity: "warning"
+            });
+            return;
+        }
+
+        if (imageLarge) {
+            setSnackbar({
+                open: true,
+                message: `Image size greater than 2MB. Processing...`,
+                severity: "info"
+            });
+        }
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setFormData((prev) => ({ ...prev, clientImage: reader.result }));
+            setIsImageLoading(false);
+        }
+
+        reader.onerror = () => {
+            setIsImageLoading(false);
+            setSnackbar({
+                open: true,
+                message: "Error uploading image. Try again later...",
+                severity: "error"
+            })
         }
     };
 
@@ -77,7 +115,7 @@ const GalleryAdmin = () => {
 
     return (
         <>
-            <Header pageTitle="Dashboard - Galery" />
+            <Header pageTitle="Dashboard - Gallery" />
             <Box sx={{ py: 2, width: "100%", maxWidth: "1200px", mx: "auto" }}>
                 <Container>
                     <Grid container spacing={2}>
@@ -161,7 +199,7 @@ const GalleryAdmin = () => {
                 <Modal open={isPop}>
                     <Box sx={{
                         position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
-                        width: 400, bgcolor: "background.paper", boxShadow: 24, p: 3, borderRadius: 2
+                        width: 300, bgcolor: "background.paper", boxShadow: 24, p: 3, borderRadius: 2
                     }}>
                         <IconButton onClick={handleClose} sx={{ position: "absolute", right: 10, top: 10 }}>
                             <Close />
@@ -174,7 +212,8 @@ const GalleryAdmin = () => {
                                 {!formData.clientImage && (<>
                                     <input type="file" accept="image/*" onChange={handleImageChange} style={{ display: "none" }} id="image-upload" />
                                     <label htmlFor="image-upload">
-                                        <Button variant="outlined" sx={{ borderColor: "text.primary", color: 'text.primary' }} component="span">Choose Image</Button>
+                                        <Button variant="outlined" sx={{ borderColor: "text.primary", color: 'text.primary' }} component="span"><Upload /> Choose Image</Button>
+                                        {isImageLoading && <CircularProgress size={18} sx={{ ml: 1, color: 'text.primary' }} />}
                                     </label>
                                 </>
                                 )}
@@ -225,6 +264,21 @@ const GalleryAdmin = () => {
                     </DialogActions>
                 </Dialog>
             </Box>
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={3000}
+                onClose={() => setSnackbar({ ...snackbar, open: false })}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+                <Alert
+                    onClose={() => setSnackbar({ ...snackbar, open: false })}
+                    severity={snackbar.severity}
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    {snackbar.message}
+                </Alert>
+            </Snackbar>
         </>
     )
 }
